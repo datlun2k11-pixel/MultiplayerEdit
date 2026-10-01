@@ -1759,12 +1759,18 @@ class $modify(MPEditorUI, EditorUI) {
             nullptr
         ));
 
-        // Fallback: also try on next frame via helper if still missing (e.g. hook priority)
+        // Fallback + playtest visibility: ensure button exists and hide during playtest
         auto* chatHelper = UpdateHelperNode::create([this](float) {
             if (!this->getChildByIDRecursive("quick-chat-button"_spr)) {
                 this->setupQuickChatButton();
             }
-        }, 0.5f);
+            if (auto* btn = this->getChildByIDRecursive("quick-chat-button"_spr)) {
+                if (auto* editor = LevelEditorLayer::get()) {
+                    bool isPlaytesting = editor->m_playbackMode != PlaybackMode::Not;
+                    btn->setVisible(!isPlaytesting);
+                }
+            }
+        }, 0.05f);
         if (chatHelper) {
             chatHelper->setID("quick-chat-helper"_spr);
             this->addChild(chatHelper);
