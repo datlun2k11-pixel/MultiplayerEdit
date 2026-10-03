@@ -25,7 +25,6 @@
 #include "ui/CursorNode.hpp"
 #include "ui/CursorOverlayNode.hpp"
 #include "ui/UpdateHelperNode.hpp"
-#include "ui/FloatingChatBall.hpp"
 
 using namespace geode::prelude;
 using namespace mpedit;
@@ -1775,13 +1774,6 @@ class $modify(MPEditorUI, EditorUI) {
         if (chatHelper) {
             chatHelper->setID("quick-chat-helper"_spr);
             this->addChild(chatHelper);
-        }
-
-        // Floating movable chat ball (hack-like GUI) - draggable, slightly transparent when idle
-        if (!this->getChildByIDRecursive("floating-chat-ball"_spr)) {
-            if (auto* ball = FloatingChatBall::create()) {
-                this->addChild(ball, 101);
-            }
         }
 
         return true;
