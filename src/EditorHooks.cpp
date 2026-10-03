@@ -1766,8 +1766,9 @@ class $modify(MPEditorUI, EditorUI) {
             }
             if (auto* btn = this->getChildByIDRecursive("quick-chat-button"_spr)) {
                 if (auto* editor = LevelEditorLayer::get()) {
-                    bool isPlaytesting = editor->m_playbackMode != PlaybackMode::Not;
-                    btn->setVisible(!isPlaytesting);
+                    // Only hide while actually playing; show when paused (editor UI is visible)
+                    bool isPlaying = editor->m_playbackMode == PlaybackMode::Playing;
+                    btn->setVisible(!isPlaying);
                 }
             }
         }, 0.05f);
